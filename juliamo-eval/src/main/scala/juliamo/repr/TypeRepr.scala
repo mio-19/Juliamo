@@ -7,15 +7,15 @@ sealed trait TypeRepr extends HasID {
 }
 
 case object IntT extends TypeRepr {
-  override def id = RefID.constant("Type Integer")
+  override def idImpl = RefID.constant("Type Integer")
 }
 
 case object CharT extends TypeRepr {
-  override def id = RefID.constant("Type Unicode Character")
+  override def idImpl = RefID.constant("Type Unicode Character")
 }
 
 case object StringT extends TypeRepr {
-  override def id = RefID.constant("Type String")
+  override def idImpl = RefID.constant("Type String")
 }
 
 type ModuleName = Vector[String]
@@ -41,5 +41,5 @@ val AnyT = Record.builtin("Any", immutable.HashMap())
 
 
 case object FunctionT extends TypeRepr {
-  override def id = RefID.constant("Type Function")
+  override def idImpl = RefID.constant("Type Function")
 }
