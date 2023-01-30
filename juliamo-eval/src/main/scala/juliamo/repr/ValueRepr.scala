@@ -1,5 +1,5 @@
 package juliamo.repr
 
-sealed trait ValueRepr 
+sealed trait ValueRepr
 
-final case class RuntimeType()
+final case class RuntimeType(typ: TypeRepr)
