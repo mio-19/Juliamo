@@ -1,4 +1,4 @@
-package juliamo.repr
+package juliamo.hashrepr
 
 import scala.collection.immutable
 

@@ -1,4 +1,4 @@
-package juliamo.repr
+package juliamo.hashrepr
 
 import juliamo.utils.Parameter
 
@@ -15,16 +15,10 @@ private val RecIDCatcher = new Parameter[Set[HasID]]
 trait HasID {
   protected def idImpl: RefID = throw new UnsupportedOperationException("TODO")
 
-  private var idCache: RefID = null
-
-  def id: RefID = if (idCache != null) idCache else RecIDCatcher.get match {
+  def id: RefID = RecIDCatcher.get match {
     case Some(history) if history.contains(this) => RefID.OnRec
-    case _ => {
-      val result = RecIDCatcher.callWithOrUpdate(Set(this), _.incl(this)) {
-        idImpl
-      }
-      idCache = result
-      result
+    case _ => RecIDCatcher.callWithOrUpdate(Set(this), _.incl(this)) {
+      idImpl
     }
   }
 }

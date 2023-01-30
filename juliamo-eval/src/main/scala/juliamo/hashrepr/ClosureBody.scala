@@ -1,4 +1,4 @@
-package juliamo.repr
+package juliamo.hashrepr
 
 
 type ClosureBody = EffectRepr
