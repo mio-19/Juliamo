@@ -17,17 +17,15 @@ trait HasID {
 
   private var idCache: RefID = null
 
-  private def calculateId: RefID = RecIDCatcher.get match {
+  def id: RefID = if (idCache != null) idCache else RecIDCatcher.get match {
     case Some(history) if history.contains(this) => RefID.OnRec
-    case _ => RecIDCatcher.callWithOrUpdate(Set(this), _.incl(this)) {
-      idImpl
+    case _ => {
+      val result = RecIDCatcher.callWithOrUpdate(Set(this), _.incl(this)) {
+        idImpl
+      }
+      idCache = result
+      result
     }
-  }
-
-  def id: RefID = if (idCache != null) idCache else {
-    val result = calculateId
-    idCache = result
-    result
   }
 }
 
