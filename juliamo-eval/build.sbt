@@ -4,5 +4,9 @@ ThisBuild / scalaVersion := "3.2.2"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "juliamo-eval"
+    name := "juliamo-eval",
+
+    libraryDependencies ++= Seq(
+      "org.typelevel" %% "shapeless3-deriving" % "3.0.1"
+    )
   )
