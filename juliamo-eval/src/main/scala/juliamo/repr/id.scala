@@ -1,6 +1,10 @@
-package juliamo.runtime
+package juliamo.repr
 
 final case class RefID(mostSigBits: Long, leastSigBits: Long)
+
+object RefID {
+  def constant(x: String): RefID = throw new UnsupportedOperationException("TODO")
+}
 
 trait HasID {
   def id: RefID = throw new UnsupportedOperationException("TODO")
