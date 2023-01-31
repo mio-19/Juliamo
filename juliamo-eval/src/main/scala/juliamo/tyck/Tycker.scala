@@ -8,6 +8,7 @@ import juliamo.core.*
 class TyckerState {
   val metas: mutable.HashMap[Nothing, Nothing] = new mutable.HashMap() // TODO
   val loadedModules: Nothing = ??? // TODO
+  val currentModuleInfo: Nothing = ??? // TODO
 
 }
 
