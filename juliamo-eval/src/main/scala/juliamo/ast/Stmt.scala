@@ -1,5 +1,6 @@
 package juliamo.ast
 
+import juliamo.utils.prim
 
 sealed trait Stmt extends HasPos
 
@@ -21,6 +22,6 @@ enum Expr extends Stmt:
 
 
 enum Literal:
-  case Integer(x: BigInt) extends Literal
-  case Str(x: String) extends Literal
-  case Char(codepoint: Int) extends Literal
+  case Integer(x: prim.Integer) extends Literal
+  case Str(x: prim.Str) extends Literal
+  case Character(x: prim.Character) extends Literal
