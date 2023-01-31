@@ -17,3 +17,10 @@ enum Expr extends Stmt:
   case Ref(override val pos: SourcePos, name: QualifiedName) extends Expr
   case Call(override val pos: SourcePos, f: Expr, args: Vector[Expr]) extends Expr
   case Lambda(override val pos: SourcePos, args: Vector[Arg], body: Expr.Block) extends Expr
+  case Lit(override val pos: SourcePos, x: Literal) extends Expr
+
+
+enum Literal:
+  case Integer(x: BigInt) extends Literal
+  case Str(x: String) extends Literal
+  case Char(codepoint: Int) extends Literal
