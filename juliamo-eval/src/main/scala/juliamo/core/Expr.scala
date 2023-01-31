@@ -1,6 +1,9 @@
 package juliamo.core
 
 import juliamo.ast.{HasPos, Literal, SourcePos}
+import juliamo.hashrepr.ReprID
+
+type CoreID = ReprID
 
 enum CoreExpr extends HasPos:
   case Lit(override val pos: SourcePos, x: Literal) extends CoreExpr
