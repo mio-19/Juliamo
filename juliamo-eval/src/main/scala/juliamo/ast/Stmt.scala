@@ -7,7 +7,7 @@ final case class Let(override val pos: SourcePos, id: String, expr: Expr) extend
 
 final case class QualifiedName(qualify: Vector[String], name: String)
 
-final case class Arg(name: String, typeName: QualifiedName)
+final case class Arg(name: String, typeExpr: Expr)
 
 enum Expr extends Stmt:
   case Return(override val pos: SourcePos, expr: Expr) extends Expr

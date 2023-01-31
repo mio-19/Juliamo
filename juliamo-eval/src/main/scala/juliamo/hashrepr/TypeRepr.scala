@@ -2,7 +2,9 @@ package juliamo.hashrepr
 
 import scala.collection.immutable
 
-sealed trait TypeRepr extends HasID {
+sealed trait ExprRepr
+
+sealed trait TypeRepr extends HasID, ExprRepr {
   def parents: Set[TypeRepr] = Set(AnyT)
 }
 
