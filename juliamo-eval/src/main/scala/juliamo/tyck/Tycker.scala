@@ -1,5 +1,8 @@
 package juliamo.tyck
 
+import scala.collection.mutable
+import juliamo.core._
+
 class TyckerState {
   val metas: mutable.HashMap[Nothing, Nothing] = new mutable.HashMap() // TODO
 
