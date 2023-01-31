@@ -1,7 +1,11 @@
 package juliamo.ast
 
-final case class FieldDef(override val pos: SourcePos, name: String, typeName: QualifiedName) extends HasPos
+final case class FieldDef(override val pos: SourcePos, name: String, typeExpr: Expr) extends HasPos
 
-enum Def extends HasPos:
-  case Val(override val pos: SourcePos,name: String, expr: Expr) extends Def
-  case Record(override val pos: SourcePos, fields: Vector[FieldDef]) extends Def
+sealed trait Def extends HasPos {
+  def name: String
+}
+
+final case class Val(override val pos: SourcePos, override val name: String, typeExpr: Option[Expr], expr: Expr) extends Def
+
+final case class Record(override val pos: SourcePos, override val name: String, fields: Vector[FieldDef]) extends Def
