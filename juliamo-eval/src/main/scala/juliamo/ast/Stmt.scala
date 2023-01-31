@@ -7,6 +7,8 @@ final case class Let(override val pos: SourcePos, id: String, expr: Expr) extend
 
 final case class QualifiedName(qualify: Vector[String], name: String)
 
+final case class Arg(name: String, typeName: QualifiedName)
+
 enum Expr extends Stmt:
   case Return(override val pos: SourcePos, expr: Expr) extends Expr
   case Resume(override val pos: SourcePos, expr: Expr) extends Expr
@@ -14,4 +16,4 @@ enum Expr extends Stmt:
   case If(override val pos: SourcePos, condition: Expr, whenTrue: Option[Block], whenFalse: Option[Block]) extends Expr
   case Ref(override val pos: SourcePos, name: QualifiedName) extends Expr
   case Call(override val pos: SourcePos, f: Expr, args: Vector[Expr]) extends Expr
-  case Lambda(override val pos: SourcePos, args: Vector[String], body: Expr.Block) extends Expr
+  case Lambda(override val pos: SourcePos, args: Vector[Arg], body: Expr.Block) extends Expr
