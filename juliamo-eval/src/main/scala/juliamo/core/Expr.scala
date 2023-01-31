@@ -36,3 +36,6 @@ enum CoreStmt extends HasPos:
   case Return(override val pos: SourcePos, expr: CoreExpr) extends CoreStmt
   case Resume(override val pos: SourcePos, expr: CoreExpr) extends CoreStmt
   case FunctionCallBind(override val pos: SourcePos) extends CoreStmt // TODO
+  
+
+final case class CoreError() extends CoreExpr // TODO // used in typechecking
