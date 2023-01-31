@@ -10,7 +10,9 @@ class TyckerState {
 
 type InferResult = Option[(CoreExpr, CoreExpr)] // TODO
 
-type CheckResult = Option[CoreExpr]
+final case class StmtWithExpr(stmts: Vector[CoreStmt], expr: CoreExpr)
+
+type CheckResult = Option[StmtWithExpr]
 
 trait Tycker[T] {
   def infer(state: TyckerState, expr: T): InferResult
