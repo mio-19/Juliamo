@@ -71,6 +71,9 @@ object CoreExpr {
 
     override def normalizeImpl = load.normalize
   }
+  final case class Arg(id: CoreID, typeExpr: CoreExpr)
+  final case class Closure(args: Vector[Arg], body: Vector[CoreStmt]) extends CoreExpr {
+  }
 }
 
 sealed trait CoreType extends CoreExpr {
@@ -94,10 +97,13 @@ final case class CoreEffect() extends CoreExpr // TODO
 
 final case class UnionEffect(xs: Set[CoreExpr]) extends CoreExpr
 
-enum CoreStmt extends HasPos:
-  case Return(override val pos: SourcePos, expr: CoreExpr) extends CoreStmt
-  case Resume(override val pos: SourcePos, expr: CoreExpr) extends CoreStmt
-  case FunctionCallBind(override val pos: SourcePos) extends CoreStmt // TODO
+sealed trait CoreStmt extends HasPos {
+  def subst(subst: Subst): CoreExpr = ???
+}
+
+final case class Return(override val pos: SourcePos, expr: CoreExpr) extends CoreStmt
+final case class Resume(override val pos: SourcePos, expr: CoreExpr) extends CoreStmt
+final case class FunctionCallBind(override val pos: SourcePos) extends CoreStmt // TODO
 
 
 final case class CoreError() extends CoreExpr // TODO // used in typechecking
