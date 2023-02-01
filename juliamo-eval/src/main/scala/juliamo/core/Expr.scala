@@ -1,6 +1,6 @@
 package juliamo.core
 
-import juliamo.ast.{HasPos, Literal, SourcePos}
+import juliamo.ast.{HasPos, Literal, QualifiedName, SourcePos}
 import juliamo.hashrepr.ReprID
 
 import scala.ref.WeakReference
@@ -40,11 +40,31 @@ sealed trait CoreExpr {
     }
   }
 
-  def normalizeImpl: CoreExpr = ??? // TODO
+  def mapImpl(f: CoreExpr => CoreExpr): CoreExpr = ??? // TODO
+
+  final def map(f: CoreExpr => CoreExpr): CoreExpr = {
+    val result = mapImpl(f)
+    if((this eq result) || this == result) return this
+    result
+  }
+
+  def normalizeImpl: CoreExpr = whnf.map(_.normalize)
 }
+
+sealed trait NormalForm extends CoreExpr {
+  override def whnfImpl = this
+  override def normalizeImpl = this
+}
+
+final case class AbsoluteModuleName(module: Vector[String], name: String)
+
 object CoreExpr {
-  final case class Lit(x: Literal) extends CoreExpr
-  final case class PureFunctionCall() extends CoreExpr // TODO
+  final case class Lit(x: Literal) extends NormalForm
+  final case class PureFunctionCall(f: CoreExpr, args: Vector[CoreExpr]) extends CoreExpr
+  final case class LocalRef(id: CoreID) extends NormalForm
+  final class GlobalRef(val name: AbsoluteModuleName, typeExpr: CoreExpr, thunk: => CoreExpr) extends CoreExpr {
+    lazy val load = thunk
+  }
 }
 
 sealed trait CoreType extends CoreExpr {
@@ -52,7 +72,7 @@ sealed trait CoreType extends CoreExpr {
 }
 
 object CoreType {
-  enum LitType extends CoreType:
+  enum LitType extends CoreType with NormalForm:
     case Integer extends LitType
     case String extends LitType
     case Character extends LitType
