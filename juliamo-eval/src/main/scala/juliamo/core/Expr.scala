@@ -35,7 +35,9 @@ sealed trait CoreExpr {
       val x = normalizeImpl
       this.normalizeCache = new WeakReference(x)
       if (this == x) this.normalizeCache = null
+      this.whnfCache = this.normalizeCache
       x.normalizeCache = null
+      x.whnfCache = x.normalizeCache
       x
     }
   }
