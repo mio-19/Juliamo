@@ -16,31 +16,31 @@ sealed trait CoreExpr {
 
   private var normalizeCache = new WeakReference[CoreExpr](null)
 
-  final def whnf: CoreExpr = whnfCache.get match {
+  final def whnf: CoreExpr = if(whnfCache == null) this else whnfCache.get match {
     case Some(x) if x != null => x
     case _ => {
       val x = whnfImpl
-      val whnfCache = new WeakReference(x)
-      this.whnfCache = whnfCache
-      x.whnfCache = whnfCache
+      this.whnfCache = new WeakReference(x)
+      if (this == x) this.whnfCache = null
+      x.whnfCache = null
       x
     }
   }
 
-  def whnfImpl: CoreExpr = ??? // TODO
+  protected def whnfImpl: CoreExpr = ??? // TODO
 
-  final def normalize: CoreExpr = normalizeCache.get match {
+  final def normalize: CoreExpr = if(normalizeCache == null) this else normalizeCache.get match {
     case Some(x) if x != null => x
     case _ => {
       val x = normalizeImpl
-      val normalizeCache = new WeakReference(x)
-      this.normalizeCache = normalizeCache
-      x.normalizeCache = normalizeCache
+      this.normalizeCache = new WeakReference(x)
+      if (this == x) this.normalizeCache = null
+      x.normalizeCache = null
       x
     }
   }
 
-  def mapImpl(f: CoreExpr => CoreExpr): CoreExpr = ??? // TODO
+  protected def mapImpl(f: CoreExpr => CoreExpr): CoreExpr = ??? // TODO
 
   final def map(f: CoreExpr => CoreExpr): CoreExpr = {
     val result = mapImpl(f)
@@ -48,7 +48,7 @@ sealed trait CoreExpr {
     result
   }
 
-  def normalizeImpl: CoreExpr = whnf.map(_.normalize)
+  protected def normalizeImpl: CoreExpr = whnf.map(_.normalize)
 }
 
 sealed trait NormalForm extends CoreExpr {
@@ -64,6 +64,10 @@ object CoreExpr {
   final case class LocalRef(id: CoreID) extends NormalForm
   final class GlobalRef(val name: AbsoluteModuleName, typeExpr: CoreExpr, thunk: => CoreExpr) extends CoreExpr {
     lazy val load = thunk
+
+    override def whnfImpl = load.whnf
+
+    override def normalizeImpl = load.normalize
   }
 }
 
