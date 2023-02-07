@@ -10,9 +10,9 @@ object RefID {
   val OnRec: RefID = RefID(0, 0)
 }
 
-private val RecIDCatcher = new Parameter[Set[HasID]]
+private val RecIDCatcher = new Parameter[Set[Hashable]]
 
-trait HasID {
+trait Hashable {
   protected def idImpl: RefID = throw new UnsupportedOperationException("TODO")
 
   private var idCache: RefID = null

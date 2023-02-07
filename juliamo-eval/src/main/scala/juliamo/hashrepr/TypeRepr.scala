@@ -4,7 +4,7 @@ import scala.collection.immutable
 
 sealed trait ExprRepr
 
-sealed trait TypeRepr extends HasID, ExprRepr {
+sealed trait TypeRepr extends Hashable, ExprRepr {
   def parents: Set[TypeRepr] = Set(AnyT)
 }
 
