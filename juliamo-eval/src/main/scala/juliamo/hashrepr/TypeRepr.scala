@@ -1,5 +1,7 @@
 package juliamo.hashrepr
 
+import juliamo.common.ModuleName
+
 import scala.collection.immutable
 
 sealed trait ExprRepr
@@ -18,12 +20,6 @@ case object CharT extends TypeRepr {
 
 case object StringT extends TypeRepr {
   override def idImpl = RefID.constant("Type String")
-}
-
-type ModuleName = Vector[String]
-
-object ModuleName {
-  val builtin: ModuleName = Vector()
 }
 
 final case class RecordName(module: ModuleName, name: String)

@@ -2,12 +2,13 @@ package juliamo.tyck
 
 import juliamo.ast.{Def, Expr}
 
-import scala.collection.mutable
+import scala.collection.{immutable, mutable}
 import juliamo.core.*
+import juliamo.common.*
 
 class TyckerState {
   val metas: mutable.HashMap[Nothing, Nothing] = new mutable.HashMap() // TODO
-  val loadedModules: Nothing = ??? // TODO
+  val loadedModules: immutable.HashMap[ModuleName, LoadedModule] = ??? // TODO
   val currentModuleInfo: Nothing = ??? // TODO
 
 }

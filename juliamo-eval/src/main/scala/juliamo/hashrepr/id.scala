@@ -30,3 +30,8 @@ trait Hashable {
   }
 }
 
+trait HashRepr extends Hashable {
+  def hashRepr: Hashable
+
+  final override def idImpl: RefID = hashRepr.id
+}
