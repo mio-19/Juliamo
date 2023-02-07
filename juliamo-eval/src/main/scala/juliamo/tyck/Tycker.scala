@@ -6,7 +6,7 @@ import scala.collection.{immutable, mutable}
 import juliamo.core.*
 import juliamo.common.*
 
-class TyckerState {
+class TyckingModule {
   val metas: mutable.HashMap[Nothing, Nothing] = new mutable.HashMap() // TODO
   val loadedModules: immutable.HashMap[ModuleName, LoadedModule] = ??? // TODO
   val currentModuleInfo: Nothing = ??? // TODO
@@ -24,9 +24,9 @@ final case class StmtWithExpr(stmts: Vector[CoreStmt], expr: CoreExpr)
 type CheckResult = Option[StmtWithExpr]
 
 trait Tycker[T <: Expr] {
-  def infer(state: TyckerState, expr: T): InferResult
+  def infer(state: TyckingModule, expr: T): InferResult
 
-  def check(state: TyckerState, expr: T, typeExpr: CoreExpr): CheckResult
+  def check(state: TyckingModule, expr: T, typeExpr: CoreExpr): CheckResult
 }
 
 trait DefTycker[T <: Def] {
